@@ -8,7 +8,6 @@ const {
   userGetEmail,
   userLogin,
 } = require("../controllers/userController");
-const { TokenChecker } = require("../helper/helper");
 const { TokenMiddleware } = require("../middleware/TokenMiddleware");
 
 const UserRouter = express

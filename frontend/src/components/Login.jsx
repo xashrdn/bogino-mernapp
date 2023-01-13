@@ -2,7 +2,7 @@ import React from "react";
 import logo from "../assets/logo/logo-default.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,8 +26,6 @@ const Login = () => {
       });
       console.log(res);
       setToken(res?.data?.token);
-      // if (faak === token) {
-      // }
     } catch (err) {
       console.log(err);
     }
