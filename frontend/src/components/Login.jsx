@@ -3,13 +3,13 @@ import logo from "../assets/logo/logo-default.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
+
   const [pw, setPw] = useState("");
-  const [token, setToken] = useState("");
   const navigate = useNavigate();
-  console.log(token);
 
   const loginUser = async () => {
     try {
@@ -21,15 +21,32 @@ const Login = () => {
           password: pw,
         },
         headers: {
-          authorization: `Bearer ${token}`,
+          // authorization: `Bearer ${token}`,
         },
       });
+      const token = res?.data?.token;
+      console.log(res?.data?.token);
       console.log(res);
+      localStorage.setItem("token", token);
+      localStorage.setItem("username", email);
+      localStorage.setItem("id", res?.data?._id);
+      if (res.status === 200) {
+        window.location.href = "/";
+      }
       setToken(res?.data?.token);
     } catch (err) {
       console.log(err);
     }
   };
+
+  const checkUser = () => {
+    const user = localStorage.getItem("token");
+    if (user) navigate("/");
+  };
+
+  useEffect(() => {
+    checkUser();
+  }, []);
 
   return (
     <div className="flex items-center justify-center flex-col h-[90vh]">
@@ -53,7 +70,7 @@ const Login = () => {
         <div className="ml-2 mt-4">Нууц үг</div>
         <input
           onChange={(e) => setPw(e.target.value)}
-          type="password"
+          type=""
           placeholder="password"
           className="p-4 w-96 mt-1 block px-1 py-2 bg-white border border-slate-300 rounded-2xl shadow-sm placeholder-zinc-500 text-sm"
         />
@@ -76,7 +93,8 @@ const Login = () => {
           onClick={loginUser}
           className="mt-8 text-2xl font-semibold text-white rounded-full w-full bg-[#02B589] p-2 px-12"
         >
-          Нэвтрэх
+          {" "}
+          Нэвтрэх{" "}
         </button>
       </div>
       <Link className="mt-8 text-[#02B589] font-semibold" to="/signup">

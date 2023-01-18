@@ -4,6 +4,7 @@ const {
   urlReadById,
   urlUpdateQuery,
   urlDeleteQuery,
+  getidUrlQueary,
 } = require("../query/UrlQuery");
 
 exports.urlById = async (req, res) => {
@@ -46,6 +47,15 @@ exports.urlDelete = async (req, res) => {
   try {
     await urlDeleteQuery(req);
     res.status(200).send(`SUCCESSFULLY DELETED`);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+};
+
+exports.urlReadById123 = async (req, res) => {
+  try {
+    const result = await getidUrlQueary(req);
+    res.status(200).send({ result });
   } catch (err) {
     res.status(400).send(err.message);
   }

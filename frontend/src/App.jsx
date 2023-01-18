@@ -6,12 +6,14 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import Header from "./pages/Header";
 import Context from "./components/Context";
+import { U } from "./components/UrlShow";
 
 const App = () => {
   return (
     <Context>
       <BrowserRouter>
         <Navbar />
+        <U />
         <Routes>
           <Route path="/" element={<Header />} />
           <Route path="/signup" element={<Signup />} />

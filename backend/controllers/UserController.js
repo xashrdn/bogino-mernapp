@@ -8,6 +8,7 @@ const {
 } = require("../query/userQuery");
 const UserSchema = require("../database/model/User");
 const { TokenGenerator } = require("../helper/helper");
+const bcrypt = require("bcrypt");
 
 exports.userById = async (req, res) => {
   try {
@@ -65,19 +66,23 @@ exports.userGetEmail = async (req, res) => {
 
 exports.userLogin = async (req, res) => {
   try {
-    console.log(req.headers.authorization);
     const { email, password } = req.body;
-    const user = await UserSchema.findOne({ email: email });
-    // if (!user) {
-    //   res.send("You dont have any access to this user");
-    // }
+    const bcrypt = require("bcrypt");
 
-    if (user.password === password && user.email === email) {
+    const user = await UserSchema.findOne({ email: email });
+    const check = await bcrypt.compare(password, user.password);
+
+    if (!user) {
+      res.send("You don't have any user account");
+    }
+    if (check && user.email === email) {
       const token = await TokenGenerator({ uid: user._id, expiresIn: 30 });
-      res.send({ token: token });
+      const saw = await UserSchema.findOne({ email: email });
+      const ab = saw._id;
+      res.status(200).send({ token: token, _id: ab });
       return;
     } else {
-      res.send("Invalid password or email");
+      res.status(401).send("Invalid password or email");
       return;
     }
   } catch (err) {

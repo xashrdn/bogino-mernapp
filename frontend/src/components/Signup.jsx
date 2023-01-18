@@ -2,7 +2,6 @@ import { useContext } from "react";
 import logo from "../assets/logo/logo-default.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { useEffect } from "react";
 import { EmailContext } from "./Context";
 
 const Signup = () => {
@@ -14,8 +13,6 @@ const Signup = () => {
     pwMatchValue,
     setPwMatchValue,
   } = useContext(EmailContext);
-
-  console.log(url);
 
   const fetchUser = async () => {
     try {
@@ -32,10 +29,6 @@ const Signup = () => {
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   return (
     <div className="flex items-center justify-center flex-col h-[90vh]">

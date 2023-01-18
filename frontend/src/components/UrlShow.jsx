@@ -1,19 +1,32 @@
-const UrlShow = () => {
-  return (
-    <div className="flex justify-center items-start h-[10vh] w-[18vw] bg-[#E5E5E5] flex-col mt-2">
-      <div>
-        <div className="text-zinc-500">Өгөгдсөн холбоос:</div>
-        <div>https://www.web-huudas.mn</div>
-      </div>
-      <div>
-        <div className="text-zinc-500">Богино холбоос:</div>
-        <div className="flex flex-row">
-          <div>shortly.io/wbmn12</div>
-          <div className="text-emerald-600 ml-2">Хуулж авах</div>
-        </div>
-      </div>
-    </div>
-  );
-};
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
-export default UrlShow;
+export const U = () => {
+  const location = useLocation();
+
+  const bairshil = location.pathname;
+  useEffect(() => {
+    const dataRetriever = async () => {
+      await axios
+        .get(`http://localhost:8000/urlid${bairshil}`)
+        .then((response) => {
+          console.log(response);
+          if (response?.data) {
+            window.location.href = response?.data?.result;
+          }
+        });
+    };
+    if (
+      bairshil != "/" ||
+      bairshil != "login" ||
+      bairshil != "/signup" ||
+      bairshil != "/forgotpass"
+    ) {
+      dataRetriever();
+    }
+  }, [bairshil]);
+
+  return <div></div>;
+};
