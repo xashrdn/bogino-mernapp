@@ -2,14 +2,13 @@ const UrlSchema = require("../database/model/Url");
 const mongoose = require("mongoose");
 
 exports.allUrl = async () => {
-  const result = await UrlSchema.find();
+  const result = await UrlSchema.find().limit(10);
   return result;
 };
 
 exports.urlReadById = async (req) => {
-  const { id } = req.params;
-  const objId = new mongoose.Types.ObjectId(id);
-  const result = await UrlSchema.findById({ _id: objId });
+  const { userid } = req.params;
+  const result = await UrlSchema.find({ userid });
   return result;
 };
 
@@ -25,6 +24,7 @@ exports.urlCreateQuery = async (req) => {
     }
     return result;
   }
+
   const allurl = await UrlSchema.find();
   let newshorty = makeid(5);
   allurl.map((el) => {
@@ -67,25 +67,13 @@ exports.urlDeleteQuery = async (req) => {
   await UrlSchema.findByIdAndRemove(result);
 };
 
-exports.getidUrlQueary = async (req) => {
-  const { id } = req.params;
-  const get = await UrlSchema.find();
-  let heh;
-  get.map((el) => {
-    if (el.shortUrl == id) {
-      heh = el.longUrl;
-    }
-  });
-  return heh;
+exports.deleteAll = async (req, res) => {
+  const result = await UrlSchema.deleteMany({});
+  res.send(result);
 };
-exports.historyUrlQueary = async (req) => {
-  const { userid } = req.params;
-  const get = await UrlSchema.find();
-  let heh = [];
-  get.map((el) => {
-    if (el.userid == userid) {
-      heh.push(el);
-    }
-  });
-  return heh;
+
+exports.urlConvert = async (req, res) => {
+  const { shortUrl } = await req.params;
+  const url = await UrlSchema.findOne({ shortUrl: shortUrl });
+  res.redirect(url.longUrl);
 };

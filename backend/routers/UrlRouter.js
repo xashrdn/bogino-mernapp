@@ -3,21 +3,17 @@ const {
   urlAll,
   urlById,
   urlCreate,
-  urlDelete,
   urlUpdate,
-  urlReadById123,
 } = require("../controllers/UrlController");
+const { deleteAll, urlConvert } = require("../query/UrlQuery");
 
 const UrlRouter = express
   .Router()
   .post("/url", urlCreate)
-  .get("/urlid/:id", urlReadById123)
-  .get("/url/:id", urlById)
+  .get("/url/:userid", urlById)
   .get("/urls", urlAll)
   .patch("/url/:id", urlUpdate)
-  .delete("/url/:id", urlDelete);
+  .delete("/url", deleteAll)
+  .get("/conv/:shortUrl", urlConvert);
 
 module.exports = UrlRouter;
-// tockencheck(req, res, next){
-//   req.headers.authorization
-// }
