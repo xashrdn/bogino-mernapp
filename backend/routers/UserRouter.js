@@ -7,7 +7,7 @@ const {
     userDelete,
     userGetEmail,
     userLogin,
-} = require('../controllers/userController');
+} = require('../controllers/UserController');
 const { TokenMiddleware } = require('../middleware/TokenMiddleware');
 
 const UserRouter = express
@@ -15,8 +15,8 @@ const UserRouter = express
     .post('/user', userCreate)
     .get('/user/:id', TokenMiddleware, userById)
     .post('/login', userLogin)
-    .get('/userget/:email', userGetEmail)
-    .get('/users', usersAll)
+    .get('/userget/:email', TokenMiddleware, userGetEmail)
+    .get('/users', TokenMiddleware, usersAll)
     .patch('/user/:id', TokenMiddleware, userUpdate)
     .delete('/user/:id', TokenMiddleware, userDelete);
 

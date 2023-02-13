@@ -14,7 +14,7 @@ const Login = () => {
   const loginUser = async () => {
     try {
       const res = await axios({
-        url: `http://localhost:8000/login`,
+        url: `https://boginoo-v1000.vercel.app/login`,
         method: "POST",
         data: {
           email: email,
@@ -24,7 +24,7 @@ const Login = () => {
           // authorization: `Bearer ${token}`,
         },
       });
-      const token = res?.data?.token;
+      const token = await res?.data?.token;
       console.log(res?.data?.token);
       console.log(res);
       localStorage.setItem("token", token);
@@ -41,7 +41,9 @@ const Login = () => {
 
   const checkUser = () => {
     const user = localStorage.getItem("token");
-    if (user) navigate("/");
+    if (user) {
+      navigate("/");
+    }
   };
 
   useEffect(() => {

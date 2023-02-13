@@ -20,7 +20,7 @@ const ForgetPw = () => {
 
   const shalgah = () => {
     if (value == number) {
-      window.location = "/login";
+      window.location.href = "/login";
     }
   };
 

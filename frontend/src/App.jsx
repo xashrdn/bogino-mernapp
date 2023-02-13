@@ -6,19 +6,19 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import Header from "./pages/Header";
 import Context from "./components/Context";
-import { U } from "./components/UrlShow";
+import History from "./components/History";
 
 const App = () => {
   return (
     <Context>
       <BrowserRouter>
         <Navbar />
-        <U />
         <Routes>
           <Route path="/" element={<Header />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgetpw" element={<ForgetPw />} />
+          <Route path="/history" element={<History />} />
         </Routes>
         <Footer />
       </BrowserRouter>

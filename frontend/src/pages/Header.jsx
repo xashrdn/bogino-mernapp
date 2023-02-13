@@ -5,8 +5,8 @@ import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [url, setUrl] = useState("");
-  const [val, setVal] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const [longUrl, setLongUrl] = useState("");
   const [check, setChecker] = useState(false);
 
   const checkUser = () => {
@@ -14,35 +14,18 @@ const Header = () => {
     if (!user) navigate("/login");
   };
 
-  // useEffect(() => {
-  //   checkUser();
-  // });
+  const urlGen = async () => {
+    const result = await axios.post("https://boginoo-v1000.vercel.app/url/", {
+      longUrl: longUrl,
+      id: localStorage.getItem("id"),
+    });
+    setShortUrl(result?.data?.shortUrl);
+    setChecker(true);
+  };
 
   useEffect(() => {
     checkUser();
   }, []);
-
-  let boloo;
-  const myArray = val.split("https://");
-  if (myArray[1] == null) {
-    boloo = "https://" + myArray[0];
-  } else {
-    boloo = "https://" + myArray[1];
-  }
-
-  const urlGen = async () => {
-    setChecker(true);
-    await axios
-      .post("http://localhost:8000/url/", {
-        id: localStorage.getItem("id"),
-        longUrl: boloo,
-      })
-      .then((response) => {
-        console.log(response);
-        setUrl("/" + response?.data?.shortUrl);
-        console.log("SUCCEsS");
-      });
-  };
 
   return (
     <>
@@ -52,7 +35,7 @@ const Header = () => {
           <div className="mt-5 flex justify-evenly w-[20vw]">
             <input
               type="text"
-              onChange={(e) => setVal(e.target.value)}
+              onChange={(e) => setLongUrl(e.target.value)}
               placeholder="https://www.web.huudas.com"
               className="outline-none w-[240px] h-[44px] rounded-full p-5 bg-[#fff]"
             />
@@ -67,13 +50,18 @@ const Header = () => {
             <div className="flex justify-center items-start h-[10vh] w-[18vw] bg-[#E5E5E5] flex-col mt-2">
               <div>
                 <div className="text-zinc-500">Өгөгдсөн холбоос:</div>
-                <div>{boloo}</div>
+                <div>{longUrl}</div>
               </div>
               <div>
                 <div className="text-zinc-500">Богино холбоос:</div>
                 <div className="flex flex-row">
-                  <div>http://localhost:5173{url}</div>
-                  <div className="text-emerald-600 ml-2">Хуулж авах</div>
+                  <a
+                    target="_blank"
+                    href={`http://localhost:8000/conv/${shortUrl}`}
+                  >
+                    http://localhost:8000/conv/{shortUrl}
+                  </a>
+                  <div className="text-emerald-600 ml-2">Дараад үсэрнэ үү</div>
                 </div>
               </div>
             </div>

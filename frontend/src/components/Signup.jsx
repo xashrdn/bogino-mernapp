@@ -17,7 +17,7 @@ const Signup = () => {
   const fetchUser = async () => {
     try {
       if (pwMatchValue === pwValue) {
-        await axios.post(`http://localhost:8000/user`, {
+        await axios.post(`https://boginoo-v1000.vercel.app/user`, {
           email: emailValue,
           password: pwValue,
         });

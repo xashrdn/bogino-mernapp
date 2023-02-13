@@ -5,7 +5,7 @@ const {
     userUpdateQuery,
     userDeleteQuery,
     userReadByEmail,
-} = require('../query/userQuery');
+} = require('../query/UserQuery');
 const UserSchema = require('../database/model/User');
 const { TokenGenerator } = require('../helper/helper');
 
@@ -20,8 +20,8 @@ exports.userById = async (req, res) => {
 
 exports.usersAll = async (req, res) => {
     try {
-        await allUser();
-        res.status(200).send(`Successfully created new user`);
+        const result = await allUser();
+        res.status(200).send({ data: result });
     } catch (err) {
         res.status(400).send(err.message);
     }

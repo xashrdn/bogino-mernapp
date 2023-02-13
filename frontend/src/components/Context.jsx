@@ -6,6 +6,7 @@ const Context = ({ children }) => {
   const [emailValue, setEmailValue] = useState("");
   const [pwValue, setPwValue] = useState("");
   const [pwMatchValue, setPwMatchValue] = useState("");
+  const [shortId, setShortId] = useState("");
   return (
     <EmailContext.Provider
       value={{
@@ -15,6 +16,8 @@ const Context = ({ children }) => {
         setPwValue,
         pwMatchValue,
         setPwMatchValue,
+        setShortId,
+        shortId,
       }}
     >
       {children}
